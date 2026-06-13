@@ -124,11 +124,11 @@ final class WaitlistRepository implements \WPPoland\StorefrontKit\Waitlist\Waitl
     {
         $restock_table = $this->tableName();
 
-        // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Own plugin table; table name from $wpdb->prefix, cannot be parameterised.
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Own plugin table; table name from $wpdb->prefix, cannot be parameterised.
         $rows = $this->wpdb->get_results(
             "SELECT * FROM {$restock_table} ORDER BY created_at DESC", // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
         );
-        // phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        // phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter
 
         return array_map(
             static fn (object $row): \Restock\Model\WaitlistSubscription => \Restock\Model\WaitlistSubscription::fromRow($row),
