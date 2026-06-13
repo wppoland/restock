@@ -6,6 +6,8 @@ namespace Restock;
 
 defined('ABSPATH') || exit;
 
+use Restock\Admin\Settings;
+use Restock\Admin\Subscribers;
 use Restock\Repository\WaitlistRepository;
 use Restock\Service\WaitlistService;
 use Restock\Util\TemplateLoader;
@@ -30,4 +32,12 @@ return static function (Container $c): void {
         $c->get(WaitlistRepository::class),
         $c->get(TemplateLoader::class),
     ));
+
+    // Admin (only loaded in wp-admin context)
+    if (is_admin()) {
+        $c->singleton(Settings::class, static fn (): Settings => new Settings());
+        $c->singleton(Subscribers::class, static fn (): Subscribers => new Subscribers(
+            $c->get(WaitlistRepository::class),
+        ));
+    }
 };

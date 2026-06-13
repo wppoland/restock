@@ -112,4 +112,27 @@ final class WaitlistRepository implements \WPPoland\StorefrontKit\Waitlist\Waitl
             ['%d'],
         );
     }
+
+    /**
+     * Return all subscriptions ordered newest first.
+     *
+     * Used by the admin subscriber list page only.
+     *
+     * @return list<\Restock\Model\WaitlistSubscription>
+     */
+    public function findAll(): array
+    {
+        $table = $this->tableName();
+
+        // phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Own plugin table; table name is derived from wpdb prefix (trusted).
+        $rows = $this->wpdb->get_results(
+            "SELECT * FROM {$table} ORDER BY created_at DESC", // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+        );
+        // phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching,WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+        return array_map(
+            static fn (object $row): \Restock\Model\WaitlistSubscription => \Restock\Model\WaitlistSubscription::fromRow($row),
+            is_array($rows) ? $rows : [],
+        );
+    }
 }
