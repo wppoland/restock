@@ -1,22 +1,127 @@
+/* ==========================================================================
+   Restock – Waitlist Form
+   Minimal, accessible, no-layout-shift styles.
+   Designed to integrate with WooCommerce themes without fighting them.
+   ========================================================================== */
+
 .restock-waitlist {
-    margin-top: 20px;
-    padding: 18px;
-    border: 1px solid rgba(0, 0, 0, .08);
-    border-radius: 14px;
-    background: #fafafa;
+    margin-top: 1.5em;
+    padding: 1.25em 1.5em;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background: #f8f8f8;
+    font-size: 0.95em;
 }
 
-.restock-waitlist-form {
-    display: grid;
-    gap: 12px;
+.restock-waitlist h3 {
+    margin: 0 0 0.6em;
+    font-size: 1em;
+    font-weight: 600;
 }
+
+.restock-waitlist > p {
+    margin: 0 0 0.8em;
+    color: #555;
+}
+
+/* ── Form ─────────────────────────────────────────────────────────────── */
+
+.restock-waitlist-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+}
+
+.restock-waitlist-form label:not(.restock-waitlist__privacy) {
+    display: block;
+}
+
+.restock-waitlist-form input[type="email"] {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.55em 0.85em;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    font-size: 1em;
+    background: #fff;
+    color: inherit;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.restock-waitlist-form input[type="email"]:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    border-color: transparent;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Privacy checkbox ─────────────────────────────────────────────────── */
 
 .restock-waitlist__privacy {
     display: flex;
-    gap: 8px;
+    gap: 0.5em;
     align-items: flex-start;
+    cursor: pointer;
+    font-size: 0.875em;
+    color: #444;
+    line-height: 1.4;
 }
+
+.restock-waitlist__privacy input[type="checkbox"] {
+    flex-shrink: 0;
+    width: 1em;
+    height: 1em;
+    margin-top: 0.15em;
+    accent-color: currentColor;
+    cursor: pointer;
+}
+
+/* ── Submit button ────────────────────────────────────────────────────── */
+
+.restock-waitlist-form button[type="submit"] {
+    align-self: flex-start;
+}
+
+.restock-waitlist-form button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ── Status message ───────────────────────────────────────────────────── */
 
 .restock-waitlist__message {
     margin: 0;
+    padding: 0.5em 0.75em;
+    border-radius: 5px;
+    font-size: 0.9em;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.04);
+}
+
+/* ── Loading state ────────────────────────────────────────────────────── */
+
+.restock-waitlist-form[aria-busy="true"] {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+
+@media (min-width: 48em) {
+    .restock-waitlist-form {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-end;
+    }
+
+    .restock-waitlist-form label:not(.restock-waitlist__privacy) {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .restock-waitlist-form .restock-waitlist__privacy,
+    .restock-waitlist-form .restock-waitlist__message {
+        flex: 0 0 100%;
+    }
 }
