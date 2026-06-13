@@ -1,0 +1,21 @@
+name: Release
+
+on:
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+']
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Build the SVN-ready zip as an artifact without pushing to wp.org'
+        type: boolean
+        default: true
+
+jobs:
+  release:
+    uses: wppoland/workflows/.github/workflows/_release-free.yml@v1
+    with:
+      slug: restock
+      wporg-slug: restock
+      has-js: false
+      dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run }}
+    secrets: inherit
